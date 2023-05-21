@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Rating from '../components/Rating';
 import { server } from '../App';
 import axios from 'axios';
-// import products from '../products';
 
 const ProductScreen = () => {
   const { id } = useParams();
@@ -18,8 +17,6 @@ const ProductScreen = () => {
     };
     fetchProduct();
   }, []);
-  // const product = products.find((p) => p.id === +id);
-  // console.log(product);
 
   return (
     <>
