@@ -1,89 +1,100 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Rating from '../components/Rating';
-import { server } from '../App';
-import axios from 'axios';
-
+import { listProductsDetails } from '../actions/productActions';
+import Loader from '../components/Loader';
+import { toast } from 'react-toastify';
 const ProductScreen = () => {
   const { id } = useParams();
-  console.log(id);
-  const [product, setProduct] = useState({});
+  const dispatch = useDispatch();
+  const productDetails = useSelector((state) => state.productDetails);
+  const { loading, error, product } = productDetails;
   useEffect(() => {
-    const fetchProduct = async () => {
-      console.log(id);
-      const { data } = await axios.get(`${server}/api/products/${id}`);
-      setProduct(data);
-      console.log(data);
-    };
-    fetchProduct();
-  }, []);
+    dispatch(listProductsDetails(id));
+  }, [dispatch, id]);
 
   return (
     <>
       <Link to={'/'} className='btn btn-dark my-3'>
         Go Back
       </Link>
-      <Row>
-        <Col md={6}>
-          <Image src={product.image} alt={product.name} fluid />
-        </Col>
-        <Col md={3}>
-          <ListGroup variant='flush'>
-            <ListGroup.Item>
-              <strong>Name:</strong> {product.name}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <strong>Price:</strong> {product.price}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <strong>Rating:</strong>
-              <Rating
-                value={product.rating}
-                text={`${product.numReviews} reviews`}
-              />
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <strong>Category:</strong> {product.category}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <strong>Description:</strong> {product.description}
-            </ListGroup.Item>
-          </ListGroup>
-        </Col>
-        <Col md={3}>
-          <Card>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        toast.error(`${error}`, {
+          position: 'top-center',
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        })
+      ) : (
+        <Row>
+          <Col md={6}>
+            <Image src={product.image} alt={product.name} fluid />
+          </Col>
+          <Col md={3}>
             <ListGroup variant='flush'>
               <ListGroup.Item>
-                <Row>
-                  <Col>Price: </Col>
-                  <Col>
-                    <strong>Rs. {product.price}</strong>
-                  </Col>
-                </Row>
+                <strong>Name:</strong> {product.name}
               </ListGroup.Item>
               <ListGroup.Item>
-                <Row>
-                  <Col>Status: </Col>
-                  <Col>
-                    {product.countInStock > 0 ? 'In Stock ' : 'OUT Stock '}
-                  </Col>
-                </Row>
+                <strong>Price:</strong> {product.price}
               </ListGroup.Item>
               <ListGroup.Item>
-                <Button
-                  className='btn-block'
-                  type='button'
-                  disabled={product.countInStock === 0}
-                >
-                  Add to Cart
-                </Button>
+                <strong>Rating:</strong>
+                <Rating
+                  value={product.rating}
+                  text={`${product.numReviews} reviews`}
+                />
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <strong>Category:</strong> {product.category}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <strong>Description:</strong> {product.description}
               </ListGroup.Item>
             </ListGroup>
-          </Card>
-        </Col>
-      </Row>
+          </Col>
+          <Col md={3}>
+            <Card>
+              <ListGroup variant='flush'>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Price: </Col>
+                    <Col>
+                      <strong>Rs. {product.price}</strong>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Status: </Col>
+                    <Col>
+                      {product.countInStock > 0 ? 'In Stock ' : 'OUT Stock '}
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Button
+                    className='btn-block'
+                    type='button'
+                    disabled={product.countInStock === 0}
+                  >
+                    Add to Cart
+                  </Button>
+                </ListGroup.Item>
+              </ListGroup>
+            </Card>
+          </Col>
+        </Row>
+      )}
     </>
   );
 };
