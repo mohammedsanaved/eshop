@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import Loader from '../components/Loader';
-import { Bars } from 'react-loader-spinner';
 import { Col, Row } from 'react-bootstrap';
 import Product from '../components/Products';
 import { listProducts } from '../actions/productActions';
