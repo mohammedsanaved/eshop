@@ -12,7 +12,7 @@ const getProducts = asyncHandler(async (req, res) => {
 
 //@desc  Fetch single products
 //@route GET /api/products/:id
-//@access Fetch all products
+//@access PUBLIC Fetch all products
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
