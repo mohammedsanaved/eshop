@@ -23,8 +23,8 @@ const ProductScreen = () => {
   console.log(id);
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
-
   const { loading, error, product } = productDetails;
+  console.log(window);
   useEffect(() => {
     dispatch(listProductsDetails(id));
   }, [dispatch, id]);
