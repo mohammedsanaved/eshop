@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Rating from '../components/Rating';
 import { listProductsDetails } from '../actions/productActions';
 import Loader from '../components/Loader';
-import { toast } from 'react-toastify';
+import { toastError } from '../components/UI/Toast';
 const ProductScreen = () => {
   const navigate = useNavigate();
   const [qty, setQty] = useState(1);
@@ -40,16 +40,7 @@ const ProductScreen = () => {
       {loading ? (
         <Loader />
       ) : error ? (
-        toast.error(`${error}`, {
-          position: 'top-center',
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        })
+        toastError({ error })
       ) : (
         <Row>
           <Col md={6}>

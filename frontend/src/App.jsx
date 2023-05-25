@@ -11,6 +11,7 @@ import ProductScreen from './screens/ProductScreen.jsx';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import RegisterScreen from './screens/RegisterScreen';
+import ProfileScreen from './screens/ProfileScreen';
 const App = () => {
   // console.log(history);
   return (
@@ -20,11 +21,9 @@ const App = () => {
         <Container>
           <ToastContainer />
           <Routes>
+            <Route path='/profile' element={<ProfileScreen />} />
             <Route path='/register' element={<RegisterScreen />} />
-            <Route
-              path='/login'
-              element={<LoginScreen location={window.location} />}
-            />
+            <Route path='/login' element={<LoginScreen />} />
             <Route path='/products/:id' element={<ProductScreen />} />
             <Route path='/cart/:id?' element={<CartScreen />} />
             <Route path='/' element={<HomeScreen />} exact />
