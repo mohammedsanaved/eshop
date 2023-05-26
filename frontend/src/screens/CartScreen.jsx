@@ -21,6 +21,9 @@ const CartScreen = () => {
   console.log(qty);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+  const userLogin = useSelector((state) => state.userLogin);
+
+  const { loading, userInfo } = userLogin;
   const { cartItems } = cart;
 
   console.log(cartItems);
@@ -31,8 +34,14 @@ const CartScreen = () => {
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id));
   };
+
+  console.log('userrrrr', userLogin);
   const checkoutHandler = () => {
-    navigate('/login?redirect=shipping');
+    if (userInfo) {
+      navigate(`/shipping`);
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
