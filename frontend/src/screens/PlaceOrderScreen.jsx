@@ -34,14 +34,13 @@ const PlaceOrderScreen = () => {
   const OrderCreate = useSelector((state) => state.orderCreate);
   const { order, success, error } = OrderCreate; // Add default empty object if OrderCreate is undefined
   console.log(OrderCreate);
-  console.log(order);
 
   useEffect(() => {
     if (success) {
       navigate(`/order/${order._id}`);
     }
     //eslint-disable-next-line
-  }, [navigate, success, order]);
+  }, [navigate, success]);
 
   const placeOrderHandler = (e) => {
     e.preventDefault();

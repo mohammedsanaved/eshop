@@ -22,7 +22,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
   } else {
     // console.log(req.user._id);
     const order = new Order({
-      name: req.user,
+      user: req.user,
       orderItems,
       shippingAddress,
       paymentMethod,
@@ -44,4 +44,23 @@ const addOrderItems = asyncHandler(async (req, res) => {
   }
 });
 
-export { addOrderItems };
+// @desc    Create new order by ID
+// @route   GET /api/orders/:id
+// @access  Private
+const getOrderById = asyncHandler(async (req, res) => {
+  console.log('runnung gerierhdjkskjd');
+  // console.log(req.params.id);
+  const order = await Order.findById(req.params.id).populate(
+    'user',
+    'name email'
+  );
+  console.log(order);
+  if (order) {
+    res.json(order);
+  } else {
+    res.status(404);
+    throw new Error('Order not Found');
+  }
+});
+
+export { addOrderItems, getOrderById };

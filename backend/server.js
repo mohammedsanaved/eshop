@@ -6,6 +6,7 @@ import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 dotenv.config();
+import cors from 'cors';
 
 connectDB();
 const app = express();
@@ -19,6 +20,16 @@ app.use('/api/users', userRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
+// app.use(cors());
+
+// app.use(
+//   cors({
+//     origin: 'http://localhost:5173', // Replace with your allowed origin
+//     methods: 'GET,POST', // Replace with your allowed methods
+//     allowedHeaders: 'Content-Type,Authorization', // Replace with your allowed headers
+//   })
+// );
+
 const PORT = process.env.PORT || 5000;
 app.listen(
   PORT,

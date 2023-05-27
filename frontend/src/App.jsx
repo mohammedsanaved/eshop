@@ -15,6 +15,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import OrderScreen from './screens/OrderScreen';
 const App = () => {
   // console.log(history);
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Container>
           <ToastContainer />
           <Routes>
+            <Route path='/order/:id' element={<OrderScreen />} />
             <Route path='/placeorder' element={<PlaceOrderScreen />} />
             <Route path='/payment' element={<PaymentScreen />} />
             <Route path='/shipping' element={<ShippingScreen />} />

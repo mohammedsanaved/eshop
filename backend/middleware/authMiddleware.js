@@ -5,6 +5,7 @@ import User from '../models/userModel.js';
 import asyncHandler from 'express-async-handler';
 
 const protect = asyncHandler(async (req, res, next) => {
+  // console.log('reached protect');
   let token;
   if (
     req.headers.authorization &&
@@ -15,7 +16,7 @@ const protect = asyncHandler(async (req, res, next) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       //   console.log(decoded);
       req.user = await User.findById(decoded.id);
-      // console.log(req.user);
+      // console.log('userfinded');
 
       next();
     } catch (error) {
