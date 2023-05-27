@@ -10,8 +10,6 @@ import { toastSuccess } from '../../frontend/src/components/UI/Toast.js';
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  //   console.log(email, password);
-
   const user = await User.findOne({ email: email });
 
   if (user && (await user.matchPassword(password))) {
@@ -33,9 +31,8 @@ const authUser = asyncHandler(async (req, res) => {
 //@access PUBLIC
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
-  //   console.log(email, password);
 
-  const userExist = await User.findOne({ email: email });
+  const userExist = await User.findOne({ email });
   if (userExist) {
     res.status(400);
     throw new Error('User already Exist');

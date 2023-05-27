@@ -115,7 +115,7 @@ const CartScreen = () => {
               <ListGroup.Item>
                 <Button
                   type='button'
-                  variant='dark'
+                  variant='light'
                   className='btn btn-outline-dark'
                   disabled={cartItems.length === 0}
                   onClick={checkoutHandler}
