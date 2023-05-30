@@ -69,10 +69,10 @@ const getUserProfile = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
     });
 
-    console.log(user.id);
-    console.log(user.name);
-    console.log(user.email);
-    console.log(generateToken(user._id));
+    // console.log(user.id);
+    // console.log(user.name);
+    // console.log(user.email);
+    // console.log(generateToken(user._id));
   } else {
     res.status(404);
     console.log(error);

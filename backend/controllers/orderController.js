@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
+import mongoose from 'mongoose';
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -48,13 +49,13 @@ const addOrderItems = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/:id
 // @access  Private
 const getOrderById = asyncHandler(async (req, res) => {
-  console.log('runnung gerierhdjkskjd');
+  // console.log('runnung getOrderById');
   // console.log(req.params.id);
   const order = await Order.findById(req.params.id).populate(
     'user',
     'name email'
   );
-  console.log(order);
+  console.log('order is access at controller line 57', order);
   if (order) {
     res.json(order);
   } else {
@@ -63,4 +64,40 @@ const getOrderById = asyncHandler(async (req, res) => {
   }
 });
 
-export { addOrderItems, getOrderById };
+// @desc    Update order to paid
+// @route   GET /api/orders/:id/pay
+// @access  Private
+const updateOrderToPaid = asyncHandler(async (req, res) => {
+  console.log('runnung updateOrderToPaid');
+  // console.log(req.params.id);
+  const order = await Order.findById(req.params.id);
+  console.log(order);
+  if (order) {
+    order.isPaid = true;
+    order.paidAt = Date.now();
+    order.paymentResult = {
+      id: req.body.id,
+      status: req.body.status,
+      update_time: req.body.update_time,
+      email_address: req.body.payer.email_address,
+    };
+    console.log(order.paymentResult);
+    const updateOrder = await order.save();
+    console.log('updateOrder in DB');
+    res.json(updateOrder);
+  } else {
+    res.status(404);
+    throw new Error('Order not Found');
+  }
+});
+
+// @desc    Get logged in user orders
+// @route   GET /api/orders/myorders
+// @access  Private
+
+const getMyOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.user._id });
+  res.json(orders);
+});
+
+export { addOrderItems, getOrderById, updateOrderToPaid, getMyOrders };

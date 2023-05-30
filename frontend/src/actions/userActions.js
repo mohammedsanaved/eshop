@@ -86,11 +86,11 @@ export const register = (name, email, password) => async (dispatch) => {
       type: USER_REGISTER_SUCCESS,
       payload: data,
     });
+    toastSuccess('User Register Successfully');
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data,
     });
-
     localStorage.setItem('userInfo', JSON.stringify(data));
     toastSuccess('Register Successfull');
     console.log(data);
@@ -103,6 +103,7 @@ export const register = (name, email, password) => async (dispatch) => {
           ? error.response.data.message
           : error.message,
     });
+    toastError('Invalid Info');
   }
 };
 
@@ -171,6 +172,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       type: USER_UPDATE_PROFILE_SUCCESS,
       payload: data,
     });
+    toastSuccess('Profile Update Successfully');
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -183,5 +185,6 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       type: USER_UPDATE_PROFILE_FAIL,
       payload: message,
     });
+    toastError('Invalid Info');
   }
 };

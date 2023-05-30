@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import Loader from '../components/Loader';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Col, Form, Row, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { toastSuccess, toastWarn } from '../components/UI/Toast';
-// import { toast } from 'react-toastify';
-// import { toastError } from '../components/UI/Toast';
+import { toastError, toastWarn } from '../components/UI/Toast';
+import { listMyOrders } from '../actions/orderActions';
+import { LinkContainer } from 'react-router-bootstrap';
 const ProfileScreen = () => {
   const navigate = useNavigate();
   const [name, setName] = useState('');
@@ -24,22 +24,24 @@ const ProfileScreen = () => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  console.log(userLogin);
+
+  const orderListMy = useSelector((state) => state.orderListMy);
+  const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
 
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
-  console.log(userUpdateProfile);
+  // console.log(userUpdateProfile);
   useEffect(() => {
     if (!userInfo) {
       navigate('/login');
     } else {
       if (!user.name) {
+        // dispatch({ type: USER_UPDATE_PROFILE_RESET })
         dispatch(getUserDetails('profile'));
+        dispatch(listMyOrders());
       } else {
-        console.log(user.name);
         setName(user.name);
         setEmail(user.email);
-        console.log(user.email);
       }
     }
   }, [dispatch, navigate, user, userInfo]);
@@ -58,7 +60,6 @@ const ProfileScreen = () => {
       <Col md={3}>
         <h1>User Profile</h1>
         {loading && <Loader />}
-        {/* {success && toastSuccess('Successfully Update')} */}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId='name'>
             <Form.Label>Name</Form.Label>
@@ -107,6 +108,51 @@ const ProfileScreen = () => {
       </Col>
       <Col md={9}>
         <h2>My Order</h2>
+        {loadingOrders ? (
+          <Loader />
+        ) : errorOrders ? (
+          toastError(errorOrders)
+        ) : (
+          <Table striped bordered hover responsive className='table-sm'>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>DATE</th>
+                <th>TOTAL</th>
+                <th>PAID</th>
+                <th>DELIVERED</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order) => (
+                <tr key={order._id}>
+                  <td>{order.createAt.substring(0, 10)}</td>
+                  <td>{order.totalPrice}</td>
+                  <td>
+                    {order.isPaid ? (
+                      order.paidAt.substring(0, 10)
+                    ) : (
+                      <i className='fas fa-times' style={{ color: 'red' }}></i>
+                    )}
+                  </td>
+                  <td>
+                    {order.isDelivered ? (
+                      order.deliveredAt.substring(0, 10)
+                    ) : (
+                      <i className='fas fa-times' style={{ color: 'red' }}></i>
+                    )}
+                  </td>
+                  <td>
+                    <LinkContainer to={`/order/${order._id}`}>
+                      <Button variant='white'>Details</Button>
+                    </LinkContainer>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
       </Col>
     </Row>
   );
