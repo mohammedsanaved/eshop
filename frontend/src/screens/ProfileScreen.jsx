@@ -56,6 +56,7 @@ const ProfileScreen = () => {
       dispatch(updateUserProfile({ _id: user._id, name, email, password }));
     }
   };
+
   return (
     <Row>
       <Col md={3}>
@@ -118,9 +119,9 @@ const ProfileScreen = () => {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>DATE</th>
-                <th>TOTAL</th>
                 <th>PAID</th>
+                <th>TOTAL</th>
+                <th>DATE</th>
                 <th>DELIVERED</th>
                 <th></th>
               </tr>
@@ -129,8 +130,6 @@ const ProfileScreen = () => {
               {orders.map((order) => (
                 <tr key={order._id}>
                   <td>{order._id}</td>
-                  <td>{order.createAt}</td>
-                  <td>{order.totalPrice}</td>
                   <td>
                     {order.isPaid ? (
                       order.paidAt
@@ -138,6 +137,9 @@ const ProfileScreen = () => {
                       <i className='fas fa-times' style={{ color: 'red' }}></i>
                     )}
                   </td>
+                  <td>{order.totalPrice}</td>
+                  <td>{order.createdAt}</td>
+
                   <td>
                     {order.isDelivered ? (
                       order.deliveredAt
@@ -147,7 +149,7 @@ const ProfileScreen = () => {
                   </td>
                   <td>
                     <LinkContainer to={`/order/${order._id}`}>
-                      <Button variant='white'>Details</Button>
+                      <Button variant='info'>Details</Button>
                     </LinkContainer>
                   </td>
                 </tr>
