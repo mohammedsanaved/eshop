@@ -16,6 +16,10 @@ import {
 } from '../constants/UserConstants';
 import { server } from '../App';
 import { toastError, toastSuccess } from '../components/UI/Toast';
+import {
+  ORDER_DETAILS_RESET,
+  ORDER_LIST_MY_RESET,
+} from '../constants/OrderConstants';
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -60,6 +64,8 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo');
   toastSuccess('Logout Successfully');
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: ORDER_DETAILS_RESET });
+  dispatch({ type: ORDER_LIST_MY_RESET });
 };
 export const register = (name, email, password) => async (dispatch) => {
   try {
