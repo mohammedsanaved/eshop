@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { register } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
 import Loader from '../components/Loader';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toastWarn } from '../components/UI/Toast';
+import { register } from '../actions/userActions';
 // import { toast } from 'react-toastify';
 // import { toastError } from '../components/UI/Toast';
 const RegisterScreen = () => {

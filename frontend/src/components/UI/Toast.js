@@ -14,8 +14,8 @@ export const toastError = (msg) => {
 };
 export const toastSuccess = (msg) => {
   return toast.success(`${msg}`, {
-    position: 'top-center',
-    autoClose: 5000,
+    position: 'bottom-center',
+    autoClose: 2500,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
@@ -28,7 +28,7 @@ export const toastWarn = (msg) => {
   return toast.warn(`${msg}`, {
     position: 'top-center',
     color: 'black',
-    autoClose: 5000,
+    autoClose: 2500,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,

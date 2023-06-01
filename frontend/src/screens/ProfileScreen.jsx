@@ -23,6 +23,7 @@ const ProfileScreen = () => {
   // only logged in user can access this Screen
 
   const userLogin = useSelector((state) => state.userLogin);
+  console.log(userLogin);
   const { userInfo } = userLogin;
 
   const orderListMy = useSelector((state) => state.orderListMy);

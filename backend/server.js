@@ -6,7 +6,7 @@ import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 dotenv.config();
-import cors from 'cors';
+// import cors from 'cors';
 
 connectDB();
 const app = express();

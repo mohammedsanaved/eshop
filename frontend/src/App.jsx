@@ -1,7 +1,7 @@
 // import React from 'react';
 import { Container } from 'react-bootstrap';
 import Footer from './components/Footer';
-import Header from './components/Header';
+import Header from './components/Header.jsx';
 import HomeScreen from './screens/HomeScreen';
 import 'react-toastify/dist/ReactToastify.css';
 import CartScreen from './screens/CartScreen';
@@ -16,6 +16,8 @@ import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
+import UserListScreen from './screens/UserListScreen';
+import UserEditScreen from './screens/UserEditScreen';
 const App = () => {
   // console.log(history);
   return (
@@ -34,6 +36,8 @@ const App = () => {
             <Route path='/login' element={<LoginScreen />} />
             <Route path='/products/:id' element={<ProductScreen />} />
             <Route path='/cart/:id?' element={<CartScreen />} />
+            <Route path='/admin/userlist' element={<UserListScreen />} />
+            <Route path='/admin/user/:id/edit' element={<UserEditScreen />} />
             <Route path='/' element={<HomeScreen />} exact />
           </Routes>
         </Container>
