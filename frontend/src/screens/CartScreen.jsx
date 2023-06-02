@@ -12,6 +12,7 @@ import {
   Image,
 } from 'react-bootstrap';
 import { addtoCart, removeFromCart } from '../actions/cartActions';
+import { toastWarn } from '../components/UI/Toast';
 const CartScreen = () => {
   const { id } = useParams();
   console.log(id);
@@ -41,6 +42,7 @@ const CartScreen = () => {
       navigate(`/shipping`);
     } else {
       navigate('/login');
+      toastWarn('Login or Register First');
     }
   };
 

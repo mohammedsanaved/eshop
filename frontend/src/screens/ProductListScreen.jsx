@@ -4,10 +4,15 @@ import Loader from '../components/Loader';
 import { toastError } from '../components/UI/Toast';
 import { Button, Table, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { listProducts, deleteProduct } from '../actions/productActions';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  listProducts,
+  deleteProduct,
+  createProduct,
+} from '../actions/productActions';
+import { PRODUCT_CREATE_RESET } from '../constants/ProductConstants';
 const ProductListScreen = () => {
-  //   const { id } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -23,7 +28,19 @@ const ProductListScreen = () => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  const createProductHandler = () => {};
+
+  const productCreate = useSelector((state) => state.productCreate);
+  const {
+    loading: loadingCreate,
+    error: errorCreate,
+    success: successCreate,
+    product: createdProduct,
+  } = productCreate;
+
+  const createProductHandler = () => {
+    //ADMIN CAN CREATE A PRODUCT
+    dispatch(createProduct());
+  };
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure ?')) {
@@ -32,12 +49,23 @@ const ProductListScreen = () => {
     }
   };
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(listProducts());
-    } else {
+    dispatch({ type: PRODUCT_CREATE_RESET });
+    if (!userInfo.isAdmin) {
       navigate('/login');
     }
-  }, [dispatch, navigate, userInfo, successDelete]);
+    if (successCreate) {
+      navigate('/admin/product/${createdProduct._id}/edit');
+    } else {
+      dispatch(listProducts());
+    }
+  }, [
+    dispatch,
+    navigate,
+    userInfo,
+    successDelete,
+    successCreate,
+    createdProduct,
+  ]);
 
   return (
     <>
@@ -53,6 +81,9 @@ const ProductListScreen = () => {
       </Row>
       {loadingDelete && <Loader />}
       {errorDelete && <h3 style={{ color: 'red' }}>{errorDelete}</h3>}
+
+      {loadingCreate && <Loader />}
+      {errorCreate && <h3 style={{ color: 'red' }}>{errorCreate}</h3>}
       {loading ? (
         <Loader />
       ) : error ? (
@@ -78,7 +109,7 @@ const ProductListScreen = () => {
                 <td>{product.category}</td>
                 <td>{product.brand}</td>
                 <td>
-                  <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                  <LinkContainer to={`/admin/products/${product._id}/edit`}>
                     <Button variant='info' className='btn-sm'>
                       <i className='fas fa-edit'></i>
                     </Button>
