@@ -44,7 +44,7 @@ export const listProductsDetails = (id) => async (dispatch) => {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
     const { data } = await axios.get(`${server}/api/products/${id}`);
-    console.log(data);
+    console.log('listProductDetails====', data);
 
     dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
   } catch (error) {

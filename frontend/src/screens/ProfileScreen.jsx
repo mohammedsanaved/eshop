@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toastError, toastWarn } from '../components/UI/Toast';
 import { listMyOrders } from '../actions/orderActions';
 import { LinkContainer } from 'react-router-bootstrap';
+import { USER_UPDATE_PROFILE_RESET } from '../constants/UserConstants';
 const ProfileScreen = () => {
   const navigate = useNavigate();
   const [name, setName] = useState('');
@@ -31,13 +32,12 @@ const ProfileScreen = () => {
 
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
-  // console.log(userUpdateProfile);
   useEffect(() => {
     if (!userInfo) {
       navigate('/login');
     } else {
       if (!user.name) {
-        // dispatch({ type: USER_UPDATE_PROFILE_RESET })
+        dispatch({ type: USER_UPDATE_PROFILE_RESET });
         dispatch(getUserDetails('profile')).then(() => {
           dispatch(listMyOrders());
         });
@@ -62,6 +62,7 @@ const ProfileScreen = () => {
     <Row>
       <Col md={3}>
         <h1>User Profile</h1>
+        {success && <h3>Profile Updated</h3>}
         {loading && <Loader />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId='name'>

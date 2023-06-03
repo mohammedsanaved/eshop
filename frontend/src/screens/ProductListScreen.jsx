@@ -4,7 +4,7 @@ import Loader from '../components/Loader';
 import { toastError } from '../components/UI/Toast';
 import { Button, Table, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   listProducts,
   deleteProduct,
@@ -12,7 +12,7 @@ import {
 } from '../actions/productActions';
 import { PRODUCT_CREATE_RESET } from '../constants/ProductConstants';
 const ProductListScreen = () => {
-  const { id } = useParams();
+  // const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -30,15 +30,18 @@ const ProductListScreen = () => {
   const { userInfo } = userLogin;
 
   const productCreate = useSelector((state) => state.productCreate);
+  console.log(productCreate);
+  console.log(productCreate.product);
+
   const {
     loading: loadingCreate,
     error: errorCreate,
     success: successCreate,
     product: createdProduct,
   } = productCreate;
+  // console.log(product);
 
   const createProductHandler = () => {
-    //ADMIN CAN CREATE A PRODUCT
     dispatch(createProduct());
   };
 
@@ -48,13 +51,14 @@ const ProductListScreen = () => {
       dispatch(deleteProduct(id));
     }
   };
+
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET });
     if (!userInfo.isAdmin) {
       navigate('/login');
     }
     if (successCreate) {
-      navigate('/admin/product/${createdProduct._id}/edit');
+      navigate(`/admin/products/${createdProduct._id}/edit`);
     } else {
       dispatch(listProducts());
     }
@@ -105,7 +109,7 @@ const ProductListScreen = () => {
               <tr key={product._id}>
                 <td>{product._id}</td>
                 <td>{product.name}</td>
-                <td>{product.price}</td>
+                <td>${product.price}</td>
                 <td>{product.category}</td>
                 <td>{product.brand}</td>
                 <td>
