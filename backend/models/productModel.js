@@ -13,6 +13,11 @@ const reviewSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+    },
   },
   {
     timestamps: true,
@@ -50,7 +55,7 @@ const productSchema = mongoose.Schema(
       required: true,
       default: 0,
     },
-    review: [reviewSchema],
+    reviews: [reviewSchema], // <-- Corrected property name
     numReviews: {
       type: Number,
       required: true,

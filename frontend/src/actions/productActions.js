@@ -16,6 +16,9 @@ import {
   PRODUCT_UPDATE_FAIL,
   PRODUCT_UPDATE_SUCCESS,
   PRODUCT_UPDATE_REQUEST,
+  PRODUCT_CREATE_REVIEW_FAIL,
+  PRODUCT_CREATE_REVIEW_SUCCESS,
+  PRODUCT_CREATE_REVIEW_REQUEST,
 } from '../constants/ProductConstants';
 import { toastError, toastSuccess } from '../components/UI/Toast';
 import { logout } from './userActions';
@@ -171,3 +174,49 @@ export const updateProduct = (product) => async (dispatch, getState) => {
     });
   }
 };
+export const productCreateReview =
+  (id, review) => async (dispatch, getState) => {
+    console.log('REVIEW', review);
+    try {
+      dispatch({
+        type: PRODUCT_CREATE_REVIEW_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      console.log(config);
+
+      const { data } = await axios.post(
+        `${server}/api/products/${id}/reviews`,
+        review,
+        config
+      );
+      console.log(id);
+
+      dispatch({
+        type: PRODUCT_CREATE_REVIEW_SUCCESS,
+        payload: data,
+      });
+      // dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === 'Not authorized, token failed') {
+        dispatch(logout());
+      }
+      dispatch({
+        type: PRODUCT_CREATE_REVIEW_FAIL,
+        payload: message,
+      });
+    }
+  };
