@@ -19,6 +19,7 @@ import {
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/ProductConstants';
 import Loader from '../components/Loader';
 import { toastError, toastSuccess } from '../components/UI/Toast';
+import Meta from '../components/Meta';
 const ProductScreen = () => {
   const navigate = useNavigate();
   const [qty, setQty] = useState(1);
@@ -73,6 +74,7 @@ const ProductScreen = () => {
         toastError({ error })
       ) : (
         <>
+          <Meta title={product.name} />
           <Row>
             <Col md={6}>
               <Image src={product.image} alt={product.name} fluid />

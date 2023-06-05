@@ -1,12 +1,12 @@
 import express from 'express';
 const router = express.Router();
-import products from '../data/products.js';
 import {
   createProduct,
   createProductReview,
   deleteProduct,
   getProductById,
   getProducts,
+  getTopProduct,
   updateProduct,
 } from '../controllers/productController.js';
 import { admin, protect } from '../middleware/authMiddleware.js';
@@ -14,9 +14,9 @@ import { admin, protect } from '../middleware/authMiddleware.js';
 //@desc  Fetch all products
 //@route GET /api/products
 //@access Fetch all products
-
 router.route('/').get(getProducts).post(protect, admin, createProduct);
 router.route('/:id/reviews').post(protect, createProductReview);
+router.route('/top').get(getTopProduct);
 
 //@desc  Fetch single products
 //@route GET /api/products/:id
