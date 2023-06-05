@@ -83,8 +83,7 @@ const ProductScreen = () => {
                   <strong>Name:</strong> {product.name}
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <strong>Price:</strong>
-                  {product.price}
+                  <strong>Price:</strong> $ {product.price}
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <strong>Rating:</strong>
@@ -108,7 +107,7 @@ const ProductScreen = () => {
                     <Row>
                       <Col>Price: </Col>
                       <Col>
-                        <strong>Rs. {product.price}</strong>
+                        <strong>$ {product.price}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -209,7 +208,11 @@ const ProductScreen = () => {
                           onChange={(e) => setComment(e.target.value)}
                         ></Form.Control>
                       </Form.Group>
-                      <Button variant='primary' type='submit'>
+                      <Button
+                        variant='primary'
+                        type='submit'
+                        style={{ marginTop: '3px' }}
+                      >
                         Submit
                       </Button>
                     </Form>

@@ -6,14 +6,16 @@ import { listProducts } from '../actions/productActions';
 import { useDispatch, useSelector } from 'react-redux';
 ('../actions/productActions.js');
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
 const HomeScreen = () => {
+  const { keyword } = useParams();
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
   console.log(productList);
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
   return (
     <>
       {loading ? (
