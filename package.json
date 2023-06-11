@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node backend/server",
+    "build": "react-scripts build",
     "server": "nodemon backend/server",
     "client": "npm start --prefix frontend",
     "data:import": "node backend/seeder",
@@ -23,8 +24,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.2.0",
     "morgan": "^1.10.0",
-    "multer": "^1.4.5-lts.1",
-    "react-paypal-button-v2": "^2.6.3"
+    "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "concurrently": "^8.0.1",

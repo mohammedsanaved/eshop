@@ -7,7 +7,7 @@ const Loader = () => {
         height='100'
         width='100'
         margin='auto'
-        color='cyan'
+        color='black'
         secondaryColor='#eee'
         radius='15'
         ariaLabel='mutating-dots-loading'

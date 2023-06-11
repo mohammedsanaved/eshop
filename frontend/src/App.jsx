@@ -70,5 +70,6 @@ const App = () => {
   );
 };
 
-export const server = 'http://localhost:5000';
+// export const server = 'http://localhost:5000';
+export const server = 'https://eshop-backend-olbw.onrender.com';
 export default App;
